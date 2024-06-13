@@ -2,7 +2,10 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Home from "./Home";
 import Error from "./Error";
-import ContentList from "./ContentList";
+import BookList from "./contentList/BookList";
+import BookInstanceList from "./contentList/BookInstanceList";
+import GenreList from "./contentList/GenreList";
+import AuthorList from "./contentList/AuthorList";
 import RedirectToHome from "./RedirectToHome";
 import CreateBookForm from "./forms/CreateBookForm";
 import CreateAuthorForm from "./forms/CreateAuthorForm";
@@ -29,19 +32,19 @@ const router = createBrowserRouter([
       },
       {
         path: "books",
-        element: <ContentList content="books" />,
+        element: <BookList />,
       },
       {
         path: "authors",
-        element: <ContentList content="authors" />,
+        element: <AuthorList />,
       },
       {
         path: "genres",
-        element: <ContentList content="genres" />,
+        element: <GenreList />,
       },
       {
         path: "book-instances",
-        element: <ContentList content="book-instances" />,
+        element: <BookInstanceList />,
       },
       {
         path: "book/create",
