@@ -14,10 +14,10 @@ function App() {
         </div>
         <hr />
         <div className="linksContainer">
-          <Link to="book/create">Create New Book</Link>
-          <Link to="author/create">Create New Author</Link>
-          <Link to="genre/create">Create New Genre</Link>
-          <Link to="book-instance/create">Create New Book Instance</Link>
+          <Link to="books/create">Create New Book</Link>
+          <Link to="authors/create">Create New Author</Link>
+          <Link to="genres/create">Create New Genre</Link>
+          <Link to="book_instances/create">Create New Book Instance</Link>
         </div>
       </div>
       <div className="contentColumn columnSection">

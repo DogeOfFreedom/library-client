@@ -44,67 +44,67 @@ const router = createBrowserRouter([
         element: <ContentList key="book instance" type="book instance" />,
       },
       {
-        path: "book/create",
+        path: "books/create",
         element: <CreateBookForm />,
       },
       {
-        path: "book/:id",
+        path: "books/:id",
         element: <Book />,
       },
       {
-        path: "book/:id/update",
+        path: "books/:id/update",
         // element:
       },
       {
-        path: "book/:id/delete",
+        path: "books/:id/delete",
         // element:
       },
       {
-        path: "author/create",
+        path: "authors/create",
         element: <CreateAuthorForm />,
       },
       {
-        path: "author/:id",
+        path: "authors/:id",
         element: <Author />,
       },
       {
-        path: "author/:id/update",
+        path: "authors/:id/update",
         // element:
       },
       {
-        path: "author/:id/delete",
+        path: "authors/:id/delete",
         // element:
       },
       {
-        path: "genre/create",
+        path: "genres/create",
         element: <CreateGenreForm />,
       },
       {
-        path: "genre/:id",
+        path: "genres/:id",
         element: <Genre />,
       },
       {
-        path: "genre/:id/update",
+        path: "genres/:id/update",
         // element:
       },
       {
-        path: "genre/:id/delete",
+        path: "genres/:id/delete",
         // element:
       },
       {
-        path: "book-instance/create",
+        path: "book_instances/create",
         element: <CreateBookInstanceForm />,
       },
       {
-        path: "book-instance/:id",
+        path: "book_instances/:id",
         element: <BookInstance />,
       },
       {
-        path: "book-instance/:id/update",
+        path: "book_instances/:id/update",
         // element:
       },
       {
-        path: "book-instance/:id/delete",
+        path: "book_instances/:id/delete",
         // element:
       },
     ],
