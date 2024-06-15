@@ -56,11 +56,11 @@ const router = createBrowserRouter([
       },
       {
         path: "book/:id/update",
-        // element: <Book />,
+        // element:
       },
       {
         path: "book/:id/delete",
-        // element: <Book />,
+        // element:
       },
       {
         path: "author/create",
@@ -72,11 +72,11 @@ const router = createBrowserRouter([
       },
       {
         path: "author/:id/update",
-        // element: <Author />,
+        // element:
       },
       {
         path: "author/:id/delete",
-        // element: <Author />,
+        // element:
       },
       {
         path: "genre/create",
@@ -88,11 +88,11 @@ const router = createBrowserRouter([
       },
       {
         path: "genre/:id/update",
-        // element: <Genre />,
+        // element:
       },
       {
         path: "genre/:id/delete",
-        // element: <Genre />,
+        // element:
       },
       {
         path: "book-instance/create",
@@ -104,11 +104,11 @@ const router = createBrowserRouter([
       },
       {
         path: "book-instance/:id/update",
-        // element: <BookInstance />,
+        // element:
       },
       {
         path: "book-instance/:id/delete",
-        // element: <BookInstance />,
+        // element:
       },
     ],
   },

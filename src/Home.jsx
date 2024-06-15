@@ -3,7 +3,10 @@ export default function Home() {
     <>
       <div className="homeHeader">
         <h1>Local Library Home</h1>
-        <p>A simple bare bones library app for practice</p>
+        <p>
+          A simple bare bones library app the follows the MDN library tutorial
+          but made in React.
+        </p>
       </div>
       <hr />
       <div className="homeContent">

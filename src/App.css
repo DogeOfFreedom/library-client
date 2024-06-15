@@ -1,22 +1,102 @@
+:root {
+    --top-padding: 25px;
+}
+
 #root {
     padding: 0px;
     display: flex;
+    align-items: flex-start;
+}
+
+body {
+    background-color: rgb(238, 238, 238);
+    display: flex;
+    margin: 0px 40px;
+}
+
+#root {
+    width: 100%;
+    height: 100vh;
+}
+
+.columnSection {
+    background-color: rgb(255, 255, 255);
+    margin: 30px 0px 50px 0px;
+    border-radius: 25px;
+    box-shadow: 0px 5px 5px rgb(184, 184, 184);
+    padding: var(--top-padding) 30px;
 }
 
 .navColumn {
-
+    min-width: 300px;
+    margin-right: 20px;
 }
 
-.navOptionsContainer {
-    display: flex;
-    flex-direction: column;
+.navColumn a {
+    font-size: 24px;
+    text-decoration: none;
+    color: black;
+    position: relative;
 }
 
-.createOptionsContainer {
+.navColumn a::before {
+    content: "";
+    width: 100%;
+    background-color: rgb(0, 0, 0);
+    height: 3px;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .1s ease-in-out;     
+}
+
+.navColumn a:hover::before {
+    transform-origin: left;
+    transform: scaleX(1);
+}
+
+.navColumn a:visited {
+    color: black;
+}
+
+.linksContainer {
     display: flex;
     flex-direction: column;
+    gap: 15px;
+}
+
+hr {
+    margin: 30px 0px;
 }
 
 .contentColumn {
+    flex: auto;
+}
 
+.contentColumn h1 {
+    margin: 0px;
+}
+
+/* Loading Wheel */
+.loadingWheel {
+    --size: 50px;
+    --border: 5px;
+    
+    width: var(--size);
+    height: var(--size);
+    border: var(--border) solid rgba(0,0,0,0);
+    border-top: var(--border) solid #3498db; /* Blue */
+    border-radius: 50%;
+    animation: 0.5s spinner infinite linear;  
+}
+
+@keyframes spinner {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg)
+    }
 }
