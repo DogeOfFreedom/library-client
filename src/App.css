@@ -5,7 +5,6 @@
 #root {
     padding: 0px;
     display: flex;
-    align-items: flex-start;
 }
 
 body {
@@ -30,6 +29,7 @@ body {
 .navColumn {
     min-width: 300px;
     margin-right: 20px;
+    align-self: flex-start;
 }
 
 .navColumn a {
