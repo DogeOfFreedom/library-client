@@ -7,11 +7,11 @@ import CreateBookForm from "./forms/CreateBookForm";
 import CreateAuthorForm from "./forms/CreateAuthorForm";
 import CreateGenreForm from "./forms/CreateGenreForm";
 import CreateBookInstanceForm from "./forms/CreateBookInstanceForm";
-import Book from "./Book";
-import Author from "./Author";
-import Genre from "./Genre";
-import BookInstance from "./BookInstance";
 import ContentList from "./ContentList";
+import BookInstance from "./objects/BookInstance";
+import Book from "./objects/Book";
+import Author from "./objects/Author";
+import Genre from "./objects/Genre";
 
 const router = createBrowserRouter([
   {

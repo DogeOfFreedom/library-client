@@ -1,13 +1,5 @@
 import { Link } from "react-router-dom";
-import { DateTime } from "luxon";
-
-const convertDate = (date) => {
-  return DateTime.fromJSDate(date).toLocaleString(DateTime.DATE_MED);
-};
-
-const capitalize = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-};
+import { convertDate, capitalize } from "./util";
 
 const createBook = (book) => {
   const id = book._id;
