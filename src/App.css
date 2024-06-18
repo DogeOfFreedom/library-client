@@ -100,3 +100,33 @@ hr {
         transform: rotate(360deg)
     }
 }
+
+/* Modal */
+dialog {
+    border: 0px;
+    background-color: rgba(0,0,0,0);
+}
+
+dialog div {
+    border: 0px solid black;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0px 2px 5px rgb(165, 165, 165);
+    padding: 25px 50px;
+    font-size: 24px;
+}
+
+dialog div button {
+    color: white;
+    background-color: #3498db;
+    width: 100px;
+    height: 50px;
+    font-size: 24px;
+    border: 0px;
+    border-radius: 15px;
+    box-shadow: 0px 2px 5px rgb(217, 217, 217);
+}
