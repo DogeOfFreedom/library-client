@@ -1,40 +1,81 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "./Model";
+import PropTypes from "prop-types";
+import LoadingWheel from "../LoadingWheel";
+import ErrorComponent from "../ErrorComponent";
+import { useParams } from "react-router-dom";
+import { format } from "date-fns";
 
-export default function CreateBookForm() {
+export default function AuthorForm({ method }) {
   const [msg, setMsg] = useState("");
   const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { id } = useParams();
+
+  let url;
+  if (method == "POST" && id === undefined) {
+    url = "http://localhost:3000/author/create";
+  } else if (method == "PUT" && id !== undefined) {
+    url = `http://localhost:3000/author/${id}/update`;
+  }
 
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [dob, setDob] = useState("");
   const [dod, setDod] = useState("");
 
+  useEffect(() => {
+    if (method == "PUT" && id !== null) {
+      const fetchAuthor = async () => {
+        const authorData = await fetch(`http://localhost:3000/author/${id}`);
+        const author = await JSON.parse(await authorData.json());
+        setFirstname(author[0].firstname);
+        setLastname(author[0].lastname);
+        setDob(format(author[0].dob.slice(0, 10), "yyyy-MM-dd"));
+        setDod(format(author[0].dod.slice(0, 10), "yyyy-MM-dd"));
+      };
+
+      try {
+        fetchAuthor();
+      } catch (e) {
+        setError(e);
+      }
+      setLoading(false);
+    }
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formObj = {
+    let formObj;
+    formObj = {
       firstname,
       lastname,
       dob: dob,
       dod: dod,
     };
-    fetch("http://localhost:3000/author/create", {
-      method: "POST",
+    if (method === "PUT") {
+      formObj = { ...formObj, id };
+    }
+
+    fetch(url, {
+      method,
       mode: "cors",
       headers: {
         "Content-type": "application/json",
       },
       body: JSON.stringify(formObj),
-    }).then((res) => {
-      if (res.message) {
+    })
+      .then((res) => res.json())
+      .then((res) => {
         setMsg(res.message);
-      } else {
-        setMsg("Author Added!");
-      }
-      setOpenModal(true);
-    });
+        setOpenModal(true);
+      });
   };
+
+  if (loading && method === "PUT") return <LoadingWheel />;
+  if (error && method === "PUT") return <ErrorComponent />;
 
   return (
     <>
@@ -91,3 +132,7 @@ export default function CreateBookForm() {
     </>
   );
 }
+
+AuthorForm.propTypes = {
+  method: PropTypes.string,
+};

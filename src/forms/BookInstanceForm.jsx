@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import Modal from "./Model";
 import LoadingWheel from "../LoadingWheel";
 import ErrorComponent from "../ErrorComponent";
+import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
+import { format } from "date-fns";
 
-export default function CreateBookInstanceForm() {
+export default function BookInstanceForm({ method }) {
   const [msg, setMsg] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -15,6 +18,14 @@ export default function CreateBookInstanceForm() {
   const [doa, setDoa] = useState("");
   const statuses = ["Available", "Maintainence", "Loaned", "Reserved"];
   const [status, setStatus] = useState(statuses[0]);
+  const { id } = useParams();
+
+  let url;
+  if (method == "POST" && id === undefined) {
+    url = "http://localhost:3000/book_instance/create";
+  } else if (method == "PUT" && id !== undefined) {
+    url = `http://localhost:3000/book_instance/${id}/update`;
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,7 +39,18 @@ export default function CreateBookInstanceForm() {
         booksArray.push(item);
       }
       setBooks(booksArray);
-      setChosenBook(booksArray[0]);
+      setChosenBook(booksArray[0]._id);
+
+      if (method === "PUT" && id !== undefined) {
+        const bookInstanceData = await fetch(
+          `http://localhost:3000/book_instance/${id}`
+        );
+        const bookInstance = await JSON.parse(await bookInstanceData.json());
+        setChosenBook(bookInstance[0].book);
+        setImprint(bookInstance[0].imprint);
+        setDoa(format(bookInstance[0].doa.slice(0, 10), "yyyy-MM-dd"));
+        setStatus(bookInstance[0].status);
+      }
     };
 
     try {
@@ -42,22 +64,24 @@ export default function CreateBookInstanceForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formObj = { book: chosenBook._id, imprint, doa, status };
-    fetch("http://localhost:3000/book_instance/create", {
-      method: "POST",
+    let formObj = { book: chosenBook, imprint, doa, status };
+    if (method === "PUT") {
+      formObj = { ...formObj, id };
+    }
+
+    fetch(url, {
+      method,
       mode: "cors",
       headers: {
         "Content-type": "application/json",
       },
       body: JSON.stringify(formObj),
-    }).then((res) => {
-      if (res.message) {
+    })
+      .then((res) => res.json())
+      .then((res) => {
         setMsg(res.message);
-      } else {
-        setMsg("Book Instance Added!");
-      }
-      setOpenModal(true);
-    });
+        setOpenModal(true);
+      });
   };
 
   if (loading) return <LoadingWheel />;
@@ -124,3 +148,7 @@ export default function CreateBookInstanceForm() {
     </>
   );
 }
+
+BookInstanceForm.propTypes = {
+  method: PropTypes.string,
+};

@@ -61,7 +61,7 @@ export default function Author() {
           );
         })}
       </div>
-      <Footer type="book" />
+      <Footer type="author" />
     </div>
   );
 }

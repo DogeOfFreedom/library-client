@@ -3,10 +3,10 @@ import App from "./App";
 import Home from "./Home";
 import Error from "./Error";
 import RedirectToHome from "./RedirectToHome";
-import CreateBookForm from "./forms/CreateBookForm";
-import CreateAuthorForm from "./forms/CreateAuthorForm";
-import CreateGenreForm from "./forms/CreateGenreForm";
-import CreateBookInstanceForm from "./forms/CreateBookInstanceForm";
+import BookForm from "./forms/BookForm";
+import AuthorForm from "./forms/AuthorForm";
+import GenreForm from "./forms/GenreForm";
+import BookInstanceForm from "./forms/BookInstanceForm";
 import ContentList from "./ContentList";
 import BookInstance from "./objects/BookInstance";
 import Book from "./objects/Book";
@@ -45,67 +45,67 @@ const router = createBrowserRouter([
       },
       {
         path: "books/create",
-        element: <CreateBookForm />,
-      },
-      {
-        path: "books/:id",
-        element: <Book />,
+        element: <BookForm method="POST" />,
       },
       {
         path: "books/:id/update",
-        // element:
+        element: <BookForm method="PUT" />,
       },
       {
         path: "books/:id/delete",
         // element:
       },
       {
-        path: "authors/create",
-        element: <CreateAuthorForm />,
+        path: "books/:id",
+        element: <Book />,
       },
       {
-        path: "authors/:id",
-        element: <Author />,
+        path: "authors/create",
+        element: <AuthorForm key="createAuthor" method="POST" />,
       },
       {
         path: "authors/:id/update",
-        // element:
+        element: <AuthorForm key="updateAuthor" method="PUT" />,
       },
       {
         path: "authors/:id/delete",
         // element:
       },
       {
-        path: "genres/create",
-        element: <CreateGenreForm />,
+        path: "authors/:id",
+        element: <Author />,
       },
       {
-        path: "genres/:id",
-        element: <Genre />,
+        path: "genres/create",
+        element: <GenreForm key="createGenre" method="POST" />,
       },
       {
         path: "genres/:id/update",
-        // element:
+        element: <GenreForm key="updateGenre" method="PUT" />,
       },
       {
         path: "genres/:id/delete",
         // element:
       },
       {
-        path: "book_instances/create",
-        element: <CreateBookInstanceForm />,
+        path: "genres/:id",
+        element: <Genre />,
       },
       {
-        path: "book_instances/:id",
-        element: <BookInstance />,
+        path: "book_instances/create",
+        element: <BookInstanceForm method="POST" />,
       },
       {
         path: "book_instances/:id/update",
-        // element:
+        element: <BookInstanceForm method="PUT" />,
       },
       {
         path: "book_instances/:id/delete",
         // element:
+      },
+      {
+        path: "book_instances/:id",
+        element: <BookInstance />,
       },
     ],
   },
