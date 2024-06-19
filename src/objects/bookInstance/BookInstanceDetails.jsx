@@ -1,11 +1,10 @@
-import { convertDate, capitalize } from "../util";
+import { convertDate } from "../../util";
 import { useState, useEffect } from "react";
+import LoadingWheel from "../../LoadingWheel";
+import ErrorComponent from "../../ErrorComponent";
 import { Link, useParams } from "react-router-dom";
-import LoadingWheel from "../LoadingWheel";
-import ErrorComponent from "../ErrorComponent";
-import Footer from "./Footer";
 
-export default function BookInstance() {
+export default function BookInstanceDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { id } = useParams();
@@ -46,7 +45,6 @@ export default function BookInstance() {
           <b>Due Back:</b> {convertDate(new Date(bookInstance.doa))}
         </p>
       )}
-      <Footer type="book instance" />
     </>
   );
 }

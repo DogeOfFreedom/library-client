@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import object from "./object.module.css";
-import LoadingWheel from "../LoadingWheel";
-import ErrorComponent from "../ErrorComponent";
-import Footer from "./Footer";
-import { capitalize } from "../util";
+import object from "../object.module.css";
+import LoadingWheel from "../../LoadingWheel";
+import ErrorComponent from "../../ErrorComponent";
 
-export default function Genre() {
+export default function BookList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [genre, setGenre] = useState(null);
+  const [books, setBooks] = useState(null);
   const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
-      const genreResponse = await fetch(`http://localhost:3000/genre/${id}`);
-      const genreObj = (await JSON.parse(await genreResponse.json()))[0];
-      setGenre(genreObj);
+      const bookResponse = await fetch(
+        `http://localhost:3000/genre/${id}/books`
+      );
+      const bookObj = (await JSON.parse(await bookResponse.json()))[0].books;
+      setBooks(bookObj);
       setLoading(false);
     };
 
@@ -32,12 +32,9 @@ export default function Genre() {
 
   return (
     <div>
-      <h1>
-        <b>Genre:</b> {capitalize(genre.name)}
-      </h1>
       <div className={object.displayContainer}>
         <h3>Books</h3>
-        {genre.books.map((book) => {
+        {books.map((book) => {
           return (
             <div className={object.bookItem} key={book._id}>
               <div className={object.bookDetails}>
@@ -50,7 +47,6 @@ export default function Genre() {
           );
         })}
       </div>
-      <Footer type="genre" />
     </div>
   );
 }

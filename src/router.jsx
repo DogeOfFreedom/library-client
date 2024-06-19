@@ -8,10 +8,14 @@ import AuthorForm from "./forms/AuthorForm";
 import GenreForm from "./forms/GenreForm";
 import BookInstanceForm from "./forms/BookInstanceForm";
 import ContentList from "./ContentList";
-import BookInstance from "./objects/BookInstance";
-import Book from "./objects/Book";
-import Author from "./objects/Author";
-import Genre from "./objects/Genre";
+import BookInstance from "./objects/bookInstance/BookInstance";
+import Book from "./objects/book/Book";
+import Author from "./objects/author/Author";
+import Genre from "./objects/genre/Genre";
+import DeleteBookInstance from "./objects/bookInstance/DeleteBookInstance";
+import DeleteBook from "./objects/book/DeleteBook";
+import DeleteGenre from "./objects/genre/DeleteGenre";
+import DeleteAuthor from "./objects/author/DeleteAuthor";
 
 const router = createBrowserRouter([
   {
@@ -43,65 +47,73 @@ const router = createBrowserRouter([
         path: "book_instances",
         element: <ContentList key="book instance" type="book instance" />,
       },
+
+      // CREATE ROUTES
       {
         path: "books/create",
         element: <BookForm method="POST" />,
-      },
-      {
-        path: "books/:id/update",
-        element: <BookForm method="PUT" />,
-      },
-      {
-        path: "books/:id/delete",
-        // element:
-      },
-      {
-        path: "books/:id",
-        element: <Book />,
       },
       {
         path: "authors/create",
         element: <AuthorForm key="createAuthor" method="POST" />,
       },
       {
-        path: "authors/:id/update",
-        element: <AuthorForm key="updateAuthor" method="PUT" />,
-      },
-      {
-        path: "authors/:id/delete",
-        // element:
-      },
-      {
-        path: "authors/:id",
-        element: <Author />,
-      },
-      {
         path: "genres/create",
         element: <GenreForm key="createGenre" method="POST" />,
+      },
+      {
+        path: "book_instances/create",
+        element: <BookInstanceForm method="POST" />,
+      },
+
+      // UPDATE ROUTES
+      {
+        path: "books/:id/update",
+        element: <BookForm method="PUT" />,
+      },
+      {
+        path: "authors/:id/update",
+        element: <AuthorForm key="updateAuthor" method="PUT" />,
       },
       {
         path: "genres/:id/update",
         element: <GenreForm key="updateGenre" method="PUT" />,
       },
       {
+        path: "book_instances/:id/update",
+        element: <BookInstanceForm method="PUT" />,
+      },
+
+      // DELETE ROUTES
+      {
+        path: "books/:id/delete",
+        element: <DeleteBook />,
+      },
+      {
+        path: "authors/:id/delete",
+        element: <DeleteAuthor />,
+      },
+      {
         path: "genres/:id/delete",
-        // element:
+        element: <DeleteGenre />,
+      },
+      {
+        path: "book_instances/:id/delete",
+        element: <DeleteBookInstance />,
+      },
+
+      // SPECIFIC OBJECT ROUTES
+      {
+        path: "books/:id",
+        element: <Book />,
+      },
+      {
+        path: "authors/:id",
+        element: <Author />,
       },
       {
         path: "genres/:id",
         element: <Genre />,
-      },
-      {
-        path: "book_instances/create",
-        element: <BookInstanceForm method="POST" />,
-      },
-      {
-        path: "book_instances/:id/update",
-        element: <BookInstanceForm method="PUT" />,
-      },
-      {
-        path: "book_instances/:id/delete",
-        // element:
       },
       {
         path: "book_instances/:id",
