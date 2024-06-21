@@ -21,45 +21,43 @@ export default function BookInstanceForm({ method }) {
   const { id } = useParams();
 
   let url;
+  const hostname = import.meta.env.VITE_HOST_NAME || "http://localhost:3000";
   if (method == "POST" && id === undefined) {
-    url = "http://localhost:3000/book_instance/create";
+    url = `${hostname}/book_instance/create`;
   } else if (method == "PUT" && id !== undefined) {
-    url = `http://localhost:3000/book_instance/${id}/update`;
+    url = `${hostname}/book_instance/${id}/update`;
   }
 
   useEffect(() => {
     const fetchData = async () => {
-      const booksArray = [];
-      const booksData = await fetch(
-        "http://localhost:3000/book/book_instances"
-      );
-      const booksDataProcessed = await JSON.parse(await booksData.json());
-      for (let i in booksDataProcessed) {
-        const item = booksDataProcessed[i];
-        booksArray.push(item);
-      }
-      setBooks(booksArray);
-      setChosenBook(booksArray[0]._id);
+      try {
+        const booksArray = [];
+        const booksData = await fetch(`${hostname}/book/book_instances`);
+        const booksDataProcessed = await JSON.parse(await booksData.json());
+        for (let i in booksDataProcessed) {
+          const item = booksDataProcessed[i];
+          booksArray.push(item);
+        }
+        setBooks(booksArray);
+        setChosenBook(booksArray[0]._id);
 
-      if (method === "PUT" && id !== undefined) {
-        const bookInstanceData = await fetch(
-          `http://localhost:3000/book_instance/${id}`
-        );
-        const bookInstance = await JSON.parse(await bookInstanceData.json());
-        setChosenBook(bookInstance[0].book);
-        setImprint(bookInstance[0].imprint);
-        setDoa(format(bookInstance[0].doa.slice(0, 10), "yyyy-MM-dd"));
-        setStatus(bookInstance[0].status);
+        if (method === "PUT" && id !== undefined) {
+          const bookInstanceData = await fetch(
+            `${hostname}/book_instance/${id}`
+          );
+          const bookInstance = await JSON.parse(await bookInstanceData.json());
+          setChosenBook(bookInstance[0].book);
+          setImprint(bookInstance[0].imprint);
+          setDoa(format(bookInstance[0].doa.slice(0, 10), "yyyy-MM-dd"));
+          setStatus(bookInstance[0].status);
+        }
+      } catch (e) {
+        setError(e);
       }
+      setLoading(false);
     };
-
-    try {
-      fetchData();
-    } catch (e) {
-      setError(e);
-    }
-    setLoading(false);
-  }, []);
+    fetchData();
+  }, [id, method]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -90,7 +88,7 @@ export default function BookInstanceForm({ method }) {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="inputContainer">
           <label htmlFor="book">Book:</label>
           <select
             name="book"
@@ -105,8 +103,7 @@ export default function BookInstanceForm({ method }) {
             ))}
           </select>
         </div>
-
-        <div>
+        <div className="inputContainer">
           <label htmlFor="imprint">Imprint:</label>
           <input
             type="text"
@@ -116,8 +113,7 @@ export default function BookInstanceForm({ method }) {
             placeholder="Publisher and date information"
           />
         </div>
-
-        <div>
+        <div className="inputContainer">
           <label htmlFor="doa">Date of availability:</label>
           <input
             type="date"
@@ -126,8 +122,7 @@ export default function BookInstanceForm({ method }) {
             id="doa"
           />
         </div>
-
-        <div>
+        <div className="inputContainer">
           <label htmlFor="status">Status:</label>
           <select
             name="status"
@@ -142,7 +137,9 @@ export default function BookInstanceForm({ method }) {
             ))}
           </select>
         </div>
-        <button type="submit">Submit</button>
+        <button className="submitBtn" type="submit">
+          Submit
+        </button>
       </form>
       <Modal setOpen={setOpenModal} open={openModal} message={msg} />
     </>

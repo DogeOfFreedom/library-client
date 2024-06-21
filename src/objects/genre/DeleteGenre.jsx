@@ -10,7 +10,9 @@ export default function DeleteGenre() {
 
   useEffect(() => {
     const checkForInstances = async () => {
-      const books = await fetch(`http://localhost:3000/genre/${id}/books`);
+      const hostname =
+        import.meta.env.VITE_HOST_NAME || "http://localhost:3000";
+      const books = await fetch(`${hostname}/genre/${id}/books`);
       const booksObj = await JSON.parse(await books.json())[0].books;
 
       if (booksObj.length > 0) {

@@ -12,9 +12,10 @@ export default function BookInstancesList() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Book Instance
+      const hostname =
+        import.meta.env.VITE_HOST_NAME || "http://localhost:3000";
       const bookInstancesResponse = await fetch(
-        `http://localhost:3000/book_instance/get_instances/${id}`
+        `${hostname}/book_instance/get_instances/${id}`
       );
       const bookInstancesObj = await JSON.parse(
         await bookInstancesResponse.json()
@@ -43,7 +44,9 @@ export default function BookInstancesList() {
             <div className={object.bookInstanceItem} key={bookInstance._id}>
               <hr />
               <div className={object.bookInstanceDetails}>
-                <p>{bookInstance.status}</p>
+                <p className={bookInstance.status.toLowerCase()}>
+                  {bookInstance.status}
+                </p>
                 <p>
                   <b>Imprint: </b> {bookInstance.imprint}
                 </p>

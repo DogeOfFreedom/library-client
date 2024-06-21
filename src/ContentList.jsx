@@ -17,24 +17,25 @@ export default function ContentList({ type }) {
   let createObj;
   let title;
 
+  const hostname = import.meta.env.VITE_HOST_NAME || "http://localhost:3000";
   switch (type) {
     case "book":
-      url = "http://localhost:3000/book/all";
+      url = `${hostname}/book/all`;
       createObj = createBook;
       title = "Book List";
       break;
     case "genre":
-      url = "http://localhost:3000/genre/all";
+      url = `${hostname}/genre/all`;
       createObj = createGenre;
       title = "Genre List";
       break;
     case "author":
-      url = "http://localhost:3000/author/all";
+      url = `${hostname}/author/all`;
       createObj = createAuthor;
       title = "Author List";
       break;
     case "book instance":
-      url = "http://localhost:3000/book_instance/all";
+      url = `${hostname}/book_instance/all`;
       createObj = createBookInstance;
       title = "Book Instance List";
       break;
@@ -67,7 +68,7 @@ export default function ContentList({ type }) {
   return (
     <>
       <h1>{title}</h1>
-      <ul>{createList()}</ul>
+      <ul className="contentList">{createList()}</ul>
     </>
   );
 }

@@ -14,10 +14,11 @@ export default function AuthorForm({ method }) {
   const { id } = useParams();
 
   let url;
+  const hostname = import.meta.env.VITE_HOST_NAME || "http://localhost:3000";
   if (method == "POST" && id === undefined) {
-    url = "http://localhost:3000/author/create";
+    url = `${hostname}/author/create`;
   } else if (method == "PUT" && id !== undefined) {
-    url = `http://localhost:3000/author/${id}/update`;
+    url = `${hostname}/author/${id}/update`;
   }
 
   const [firstname, setFirstname] = useState("");
@@ -28,22 +29,21 @@ export default function AuthorForm({ method }) {
   useEffect(() => {
     if (method == "PUT" && id !== null) {
       const fetchAuthor = async () => {
-        const authorData = await fetch(`http://localhost:3000/author/${id}`);
-        const author = await JSON.parse(await authorData.json());
-        setFirstname(author[0].firstname);
-        setLastname(author[0].lastname);
-        setDob(format(author[0].dob.slice(0, 10), "yyyy-MM-dd"));
-        setDod(format(author[0].dod.slice(0, 10), "yyyy-MM-dd"));
+        try {
+          const authorData = await fetch(`${hostname}/author/${id}`);
+          const author = await JSON.parse(await authorData.json());
+          setFirstname(author[0].firstname);
+          setLastname(author[0].lastname);
+          setDob(format(author[0].dob.slice(0, 10), "yyyy-MM-dd"));
+          setDod(format(author[0].dod.slice(0, 10), "yyyy-MM-dd"));
+        } catch (e) {
+          setError(e);
+        }
+        setLoading(false);
       };
-
-      try {
-        fetchAuthor();
-      } catch (e) {
-        setError(e);
-      }
-      setLoading(false);
+      fetchAuthor();
     }
-  }, []);
+  }, [id, method]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -80,7 +80,7 @@ export default function AuthorForm({ method }) {
   return (
     <>
       <form action="" method="POST" onSubmit={handleSubmit}>
-        <div>
+        <div className="inputContainer">
           <label htmlFor="firstname">First Name:</label>
           <input
             type="text"
@@ -92,7 +92,7 @@ export default function AuthorForm({ method }) {
             required
           />
         </div>
-        <div>
+        <div className="inputContainer">
           <label htmlFor="lastname">Last Name:</label>
           <input
             type="text"
@@ -104,7 +104,7 @@ export default function AuthorForm({ method }) {
             required
           />
         </div>
-        <div>
+        <div className="inputContainer">
           <label htmlFor="dob">Date of birth:</label>
           <input
             type="date"
@@ -115,7 +115,7 @@ export default function AuthorForm({ method }) {
             required
           />
         </div>
-        <div>
+        <div className="inputContainer">
           <label htmlFor="dod">Date of death:</label>
           <input
             type="date"
@@ -126,7 +126,9 @@ export default function AuthorForm({ method }) {
             required
           />
         </div>
-        <button type="submit">Submit</button>
+        <button className="submitBtn" type="submit">
+          Submit
+        </button>
       </form>
       <Modal setOpen={setOpenModal} open={openModal} message={msg} />
     </>

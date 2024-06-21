@@ -21,65 +21,66 @@ export default function BookForm({ method }) {
   const { id } = useParams();
 
   let url;
+  const hostname = import.meta.env.VITE_HOST_NAME || "http://localhost:3000";
   if (method == "POST" && id === undefined) {
-    url = "http://localhost:3000/book/create";
+    url = `${hostname}/book/create`;
   } else if (method == "PUT" && id !== undefined) {
-    url = `http://localhost:3000/book/${id}/update`;
+    url = `${hostname}/book/${id}/update`;
   }
 
   useEffect(() => {
     const fetchData = async () => {
       const authorsArray = [];
-      const authorData = await fetch("http://localhost:3000/author/names");
-      const authorDataProcessed = await JSON.parse(await authorData.json());
-      for (const i in authorDataProcessed) {
-        const item = authorDataProcessed[i];
-        const name = `${item.firstname} ${item.lastname}`;
-        const obj = {
-          id: item._id,
-          name,
-        };
-        authorsArray.push(obj);
-      }
-      setAuthors(authorsArray);
-      setAuthor(authorsArray[0].id);
-
-      const genresArray = [];
-      const genreData = await fetch("http://localhost:3000/genre/names");
-      const genreDataProcessed = await JSON.parse(await genreData.json());
-      for (const i in genreDataProcessed) {
-        const item = genreDataProcessed[i];
-        genresArray.push(item.name);
-      }
-      setGenres(genresArray);
-      setCheckedState(() => new Array(genresArray.length).fill(false));
-
-      if (method === "PUT" && id !== undefined) {
-        const bookData = await fetch(`http://localhost:3000/book/${id}`);
-        const book = await JSON.parse(await bookData.json());
-        setTitle(book[0].title);
-        setAuthor(book[0].author._id);
-        setSummary(book[0].summary);
-        setISBN(book[0].ISBN);
-        const bookGenres = book[0].genre;
-        const selectedGenres = bookGenres.map((bookGenre) =>
-          genresArray.indexOf(bookGenre)
-        );
-        const newCheckedState = new Array(genresArray.length).fill(false);
-        for (const selectedGenre of selectedGenres) {
-          newCheckedState[selectedGenre] = true;
+      try {
+        const authorData = await fetch(`${hostname}/author/names`);
+        const authorDataProcessed = await JSON.parse(await authorData.json());
+        for (const i in authorDataProcessed) {
+          const item = authorDataProcessed[i];
+          const name = `${item.firstname} ${item.lastname}`;
+          const obj = {
+            id: item._id,
+            name,
+          };
+          authorsArray.push(obj);
         }
-        setCheckedState(newCheckedState);
+        setAuthors(authorsArray);
+        setAuthor(authorsArray[0].id);
+
+        const genresArray = [];
+        const genreData = await fetch(`${hostname}/genre/names`);
+        const genreDataProcessed = await JSON.parse(await genreData.json());
+        for (const i in genreDataProcessed) {
+          const item = genreDataProcessed[i];
+          genresArray.push(item.name);
+        }
+        setGenres(genresArray);
+        setCheckedState(() => new Array(genresArray.length).fill(false));
+
+        if (method === "PUT" && id !== undefined) {
+          const bookData = await fetch(`${hostname}/book/${id}`);
+          const book = await JSON.parse(await bookData.json());
+          setTitle(book[0].title);
+          setAuthor(book[0].author._id);
+          setSummary(book[0].summary);
+          setISBN(book[0].ISBN);
+          const bookGenres = book[0].genre;
+          const selectedGenres = bookGenres.map((bookGenre) =>
+            genresArray.indexOf(bookGenre)
+          );
+          const newCheckedState = new Array(genresArray.length).fill(false);
+          for (const selectedGenre of selectedGenres) {
+            newCheckedState[selectedGenre] = true;
+          }
+          setCheckedState(newCheckedState);
+        }
+      } catch (e) {
+        setError(e);
       }
+      setLoading(false);
     };
 
-    try {
-      fetchData();
-    } catch (e) {
-      setError(e);
-    }
-    setLoading(false);
-  }, []);
+    fetchData();
+  }, [id, method]);
 
   const handleCheckboxChange = (e) => {
     const newCheckedState = [...checkedState];
@@ -130,7 +131,7 @@ export default function BookForm({ method }) {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="inputContainer">
           <label htmlFor="title">Title:</label>
           <input
             type="text"
@@ -141,7 +142,7 @@ export default function BookForm({ method }) {
             required
           />
         </div>
-        <div>
+        <div className="inputContainer">
           <label htmlFor="author">Author:</label>
           <select
             name="author"
@@ -159,7 +160,7 @@ export default function BookForm({ method }) {
             ))}
           </select>
         </div>
-        <div>
+        <div className="inputContainer">
           <label htmlFor="summary">Summary:</label>
           <textarea
             name="summary"
@@ -169,7 +170,7 @@ export default function BookForm({ method }) {
             onChange={(e) => setSummary(e.target.value)}
           ></textarea>
         </div>
-        <div>
+        <div className="inputContainer">
           <label htmlFor="isbn">ISBN:</label>
           <input
             type="text"
@@ -179,7 +180,7 @@ export default function BookForm({ method }) {
             onChange={(e) => setISBN(e.target.value)}
           />
         </div>
-        <div>
+        <div className="checkboxContainer">
           {genres.map((genre) => {
             const index = genres.indexOf(genre);
             const checked = checkedState[index];
@@ -199,7 +200,9 @@ export default function BookForm({ method }) {
             );
           })}
         </div>
-        <button type="submit">Submit</button>
+        <button className="submitBtn" type="submit">
+          Submit
+        </button>
       </form>
       <Modal setOpen={setOpenModal} open={openModal} message={msg} />
     </>

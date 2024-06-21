@@ -12,9 +12,9 @@ export default function GenreDetails() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const genreResponse = await fetch(
-        `http://localhost:3000/genre/${id}/name`
-      );
+      const hostname =
+        import.meta.env.VITE_HOST_NAME || "http://localhost:3000";
+      const genreResponse = await fetch(`${hostname}/genre/${id}/name`);
       const genreName = (await JSON.parse(await genreResponse.json()))[0].name;
       setGenre(genreName);
       setLoading(false);

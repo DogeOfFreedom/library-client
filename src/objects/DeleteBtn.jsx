@@ -5,7 +5,8 @@ export default function DeleteBtn({ type }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const url = `http://localhost:3000/${type}/${id}/delete`;
+  const hostname = import.meta.env.VITE_HOST_NAME || "http://localhost:3000";
+  const url = `${hostname}/${type}/${id}/delete`;
   const deleteObj = async () => {
     await fetch(url, {
       method: "DELETE",

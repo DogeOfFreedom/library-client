@@ -12,9 +12,9 @@ export default function BookList() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const bookResponse = await fetch(
-        `http://localhost:3000/genre/${id}/books`
-      );
+      const hostname =
+        import.meta.env.VITE_HOST_NAME || "http://localhost:3000";
+      const bookResponse = await fetch(`${hostname}/genre/${id}/books`);
       const bookObj = (await JSON.parse(await bookResponse.json()))[0].books;
       setBooks(bookObj);
       setLoading(false);

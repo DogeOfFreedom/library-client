@@ -14,28 +14,28 @@ export default function GenreForm({ method }) {
   const { id } = useParams();
 
   let url;
+  const hostname = import.meta.env.VITE_HOST_NAME || "http://localhost:3000";
   if (method == "POST" && id === undefined) {
-    url = "http://localhost:3000/genre/create";
+    url = `${hostname}/genre/create`;
   } else if (method == "PUT" && id !== undefined) {
-    url = `http://localhost:3000/genre/${id}/update`;
+    url = `${hostname}/genre/${id}/update`;
   }
 
   useEffect(() => {
     if (method == "PUT" && id !== null) {
       const fetchGenre = async () => {
-        const genreData = await fetch(`http://localhost:3000/genre/${id}`);
-        const genre = await JSON.parse(await genreData.json());
-        setGenre(genre[0].name);
+        try {
+          const genreData = await fetch(`${hostname}/genre/${id}`);
+          const genre = await JSON.parse(await genreData.json());
+          setGenre(genre[0].name);
+        } catch (e) {
+          setError(e);
+        }
+        setLoading(false);
       };
-
-      try {
-        fetchGenre();
-      } catch (e) {
-        setError(e);
-      }
-      setLoading(false);
+      fetchGenre();
     }
-  }, []);
+  }, [id, method]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -62,7 +62,7 @@ export default function GenreForm({ method }) {
   return (
     <>
       <form action="" method="POST" onSubmit={handleSubmit}>
-        <div>
+        <div className="inputContainer">
           <label htmlFor="genre">Genre:</label>
           <input
             name="genre"
@@ -74,7 +74,9 @@ export default function GenreForm({ method }) {
             required
           />
         </div>
-        <button type="submit">Submit</button>
+        <button className="submitBtn" type="submit">
+          Submit
+        </button>
       </form>
       <Modal setOpen={setOpenModal} open={openModal} message={msg} />
     </>

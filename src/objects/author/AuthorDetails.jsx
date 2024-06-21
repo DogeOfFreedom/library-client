@@ -12,7 +12,9 @@ export default function AuthorDetails() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const authorResponse = await fetch(`http://localhost:3000/author/${id}`);
+      const hostname =
+        import.meta.env.VITE_HOST_NAME || "http://localhost:3000";
+      const authorResponse = await fetch(`${hostname}/author/${id}`);
       const authorObj = (await JSON.parse(await authorResponse.json()))[0];
       setAuthor(authorObj);
       setLoading(false);

@@ -10,8 +10,10 @@ export default function DeleteBook() {
 
   useEffect(() => {
     const checkForInstances = async () => {
+      const hostname =
+        import.meta.env.VITE_HOST_NAME || "http://localhost:3000";
       const bookInstances = await fetch(
-        `http://localhost:3000/book_instance/get_instances/${id}`
+        `${hostname}/book_instance/get_instances/${id}`
       );
       const bookInstancesObj = await JSON.parse(await bookInstances.json());
 

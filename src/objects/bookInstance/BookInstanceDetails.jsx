@@ -9,9 +9,10 @@ export default function BookInstanceDetails() {
   const [error, setError] = useState(null);
   const { id } = useParams();
   const [bookInstance, setBookInstance] = useState(null);
-  const url = `http://localhost:3000/book_instance/${id}`;
 
   useEffect(() => {
+    const hostname = import.meta.env.VITE_HOST_NAME || "http://localhost:3000";
+    const url = `${hostname}/book_instance/${id}`;
     fetch(url)
       .then((data) => data.json())
       .then((json) => JSON.parse(json))
@@ -38,7 +39,10 @@ export default function BookInstanceDetails() {
         <b>Imprint: </b> {bookInstance.imprint}
       </p>
       <p>
-        <b>Status: </b> {bookInstance.status}
+        <b>Status: </b>{" "}
+        <span className={bookInstance.status.toLowerCase()}>
+          {bookInstance.status}
+        </span>
       </p>
       {bookInstance !== "Available" && (
         <p>

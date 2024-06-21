@@ -49,15 +49,18 @@ const createBookInstance = (bookInstance) => {
   if (status == "Available") {
     element = (
       <li key={id}>
-        <Link to={id}>{`${title} : ${imprint}.`}</Link> {` - ${status}`}
+        <Link to={id}>{`${title} : ${imprint}.`}</Link>
+        {" - "}
+        <span className={status.toLowerCase()}>{status}</span>
       </li>
     );
   } else {
     const doa = convertDate(new Date(bookInstance.doa));
     element = (
       <li key={id}>
-        <Link to={id}>{`${title} : ${imprint}.`}</Link>{" "}
-        {` - ${status} (${doa})`}
+        <Link to={id}>{`${title} : ${imprint}.`}</Link>
+        {" - "}
+        <span className={status.toLowerCase()}>{status}</span> ({doa})
       </li>
     );
   }

@@ -10,7 +10,9 @@ export default function DeleteAuthor() {
 
   useEffect(() => {
     const checkForInstances = async () => {
-      const books = await fetch(`http://localhost:3000/book/author/${id}`);
+      const hostname =
+        import.meta.env.VITE_HOST_NAME || "http://localhost:3000";
+      const books = await fetch(`${hostname}/book/author/${id}`);
       const booksObj = await JSON.parse(await books.json());
 
       if (booksObj.length > 0) {
